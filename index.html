@@ -42,6 +42,9 @@
         </div>
         <canvas id="qr" class="ml-auto"></canvas>
       </div>
+    <button onclick="descargarPDF()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      Descargar carnet en PDF
+    </button>
     </div>
   </div>
 
@@ -92,6 +95,22 @@
     qr.value = urlCarnet;
     carnet.classList.remove('hidden');
   });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  function descargarPDF() {
+    const carnetElement = document.getElementById("carnet");
+    const nombre = document.getElementById("nombre").value || "carnet";
+    const opt = {
+      margin: 0.5,
+      filename: `carnet-${nombre.replaceAll(" ", "_")}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().from(carnetElement).set(opt).save();
+  }
 </script>
 </body>
 </html>
